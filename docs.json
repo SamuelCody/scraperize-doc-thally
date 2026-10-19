@@ -1,0 +1,139 @@
+{
+  "theme": "default",
+  "appearance": {
+    "default": "system",
+    "showToggle": true,
+    "contentIcons": "accent"
+  },
+  "fonts": {
+    "body": {
+      "family": "Inter",
+      "weight": [
+        "400",
+        "500",
+        "600"
+      ]
+    },
+    "heading": {
+      "family": "Outfit",
+      "weight": [
+        "600",
+        "700"
+      ]
+    }
+  },
+  "favicon": {
+    "light": "/images/favicon.svg",
+    "dark": "/images/favicon.svg"
+  },
+  "markdown": {
+    "enabled": true
+  },
+  "navbar": {
+    "logo": {
+      "light": "/images/logo.svg",
+      "dark": "/images/logo-dark.svg",
+      "showTitle": true
+    },
+    "links": [
+      {
+        "label": "Dashboard",
+        "href": "https://app.scraperize.com"
+      }
+    ],
+    "primary": {
+      "label": "Get your API key",
+      "href": "https://app.scraperize.com"
+    }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/scraperize"
+    },
+    "links": [
+      {
+        "heading": "Scraperize",
+        "items": [
+          {
+            "label": "Website",
+            "href": "https://scraperize.com"
+          },
+          {
+            "label": "Dashboard",
+            "href": "https://app.scraperize.com"
+          },
+          {
+            "label": "Status",
+            "href": "/status"
+          }
+        ]
+      }
+    ],
+    "copyright": "© {year} Scraperize"
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity"
+    ]
+  },
+  "apiPlayground": {
+    "credentials": {
+      "ApiKeyAuth": "YOUR_API_KEY"
+    }
+  },
+  "tabs": [
+    {
+      "tab": "Documentation",
+      "groups": [
+        {
+          "group": "Get started",
+          "pages": [
+            "introduction",
+            "quickstart",
+            "authentication",
+            "platforms"
+          ]
+        },
+        {
+          "group": "Core concepts",
+          "pages": [
+            "essentials/credits",
+            "essentials/caching",
+            "essentials/response-format",
+            "essentials/errors",
+            "essentials/rate-limits"
+          ]
+        },
+        {
+          "group": "Resources",
+          "pages": [
+            "faq",
+            "status"
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "API Reference",
+      "groups": [],
+      "api": {
+        "source": "openapi.json"
+      }
+    },
+    {
+      "tab": "Integrations",
+      "groups": [
+        {
+          "group": "Integrations",
+          "pages": [
+            "integrations/mcp"
+          ]
+        }
+      ]
+    }
+  ]
+}

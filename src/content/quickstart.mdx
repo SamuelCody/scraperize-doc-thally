@@ -1,0 +1,72 @@
+---
+title: "Quickstart"
+description: "Make your first Scraperize call in under a minute."
+---
+
+<Steps>
+  <Step title="Get an API key">
+    Sign in to your [dashboard](https://app.scraperize.com), open **API keys**, and create a key. Copy it
+    now — the secret is shown once. New accounts start with free credits.
+  </Step>
+  <Step title="Make a request">
+    Send the key in the `x-api-key` header. This fetches one public Telegram post:
+
+    <CodeGroup>
+    ```bash cURL
+    curl "https://api.scraperize.com/v1/telegram/post?url=https://t.me/durov/537" \
+      -H "x-api-key: YOUR_API_KEY"
+    ```
+
+    ```js Node
+    const res = await fetch(
+      "https://api.scraperize.com/v1/telegram/post?url=https://t.me/durov/537",
+      { headers: { "x-api-key": process.env.SCRAPERIZE_API_KEY } }
+    );
+    const { data, meta } = await res.json();
+    console.log(data, meta.creditsRemaining);
+    ```
+
+    ```python Python
+    import requests
+    r = requests.get(
+        "https://api.scraperize.com/v1/telegram/post",
+        params={"url": "https://t.me/durov/537"},
+        headers={"x-api-key": "YOUR_API_KEY"},
+    )
+    print(r.json())
+    ```
+    </CodeGroup>
+  </Step>
+  <Step title="Read the response">
+    You get the standard envelope — your result under `data`, plus `meta` with your `requestId` and
+    remaining credits:
+
+    ```json
+    {
+      "data": { "post": { "id": 537, "text": "…", "views": 3440000 }, "fetchedAt": "2026-09-14T09:00:00.000Z" },
+      "meta": { "requestId": "req_…", "creditsCharged": 1, "creditsRemaining": 4999, "cached": false }
+    }
+    ```
+  </Step>
+  <Step title="Save credits with caching (optional)">
+    Add `cache_max_age` to accept a recent cached result for **0 credits**:
+
+    ```bash
+    curl "https://api.scraperize.com/v1/telegram/post?url=https://t.me/durov/537&cache_max_age=7d" \
+      -H "x-api-key: YOUR_API_KEY"
+    ```
+
+    See [Caching](/essentials/caching).
+  </Step>
+</Steps>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Browse every endpoint" icon="code" href="/api">
+    The full API reference, grouped by platform.
+  </Card>
+  <Card title="Understand credits" icon="coins" href="/essentials/credits">
+    What each call costs and how to top up.
+  </Card>
+</CardGroup>

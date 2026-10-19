@@ -1,0 +1,179 @@
+---
+title: "MCP"
+description: "Connect Claude, ChatGPT, Cursor, VS Code and other AI assistants to Scraperize."
+icon: "plug"
+---
+
+The Scraperize MCP server lets AI assistants use the Scraperize API for you. Your assistant finds the right
+endpoint, runs the scrape and works with the JSON, using your account's credits. It's read-only: it can't
+change your account, API keys or billing.
+
+```text MCP server URL
+https://api.scraperize.com/mcp
+```
+
+## Quick install
+
+<CardGroup cols={2}>
+  <Card title="Install in Cursor" icon="/images/clients/cursor.svg" href="cursor://anysphere.cursor-deeplink/mcp/install?name=scraperize&config=eyJ1cmwiOiJodHRwczovL2FwaS5zY3JhcGVyaXplLmNvbS9tY3AifQ==">
+    Adds the server, then sign in with your API key.
+  </Card>
+  <Card title="Install in VS Code" icon="/images/clients/vscode.svg" href="https://vscode.dev/redirect/mcp/install?name=scraperize&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fapi.scraperize.com%2Fmcp%22%7D">
+    Adds the server, then sign in with your API key.
+  </Card>
+</CardGroup>
+
+## Setup
+
+When an app connects for the first time, a Scraperize page opens in your browser. Paste an
+[API key](https://app.scraperize.com/keys) and click **Connect**. The app gets its own access token; your key
+is never shared with it.
+
+<Tabs>
+  <Tab title="Claude" icon="/images/clients/claude.svg">
+    Works in Claude on the web and the Claude desktop app.
+
+    <Steps>
+      <Step title="Add a connector">
+        Go to **Settings → Connectors** and click **Add custom connector**.
+      </Step>
+      <Step title="Enter the server">
+        Name it **Scraperize** and use `https://api.scraperize.com/mcp` as the URL.
+      </Step>
+      <Step title="Connect">
+        Click **Connect**, paste your API key on the Scraperize page, and click **Connect** again.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="ChatGPT" icon="/images/clients/chatgpt.svg">
+    <Steps>
+      <Step title="Add a connector">
+        In **Settings → Apps & Connectors**, create a custom connector. Depending on your plan, you may need to
+        turn on **Developer mode** under **Advanced settings** first.
+      </Step>
+      <Step title="Enter the server">
+        Name it **Scraperize**, use `https://api.scraperize.com/mcp` as the URL and choose **OAuth** for
+        authentication.
+      </Step>
+      <Step title="Connect">
+        Paste your API key on the Scraperize page and click **Connect**.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Claude Code" icon="/images/clients/claude.svg">
+    Add the server:
+
+    ```bash
+    claude mcp add --transport http scraperize https://api.scraperize.com/mcp
+    ```
+
+    Then run `/mcp`, select **scraperize** and choose **Authenticate** to sign in with your API key.
+
+    To skip the browser step, pass the key as a header instead:
+
+    ```bash
+    claude mcp add --transport http scraperize https://api.scraperize.com/mcp --header "x-api-key: YOUR_API_KEY"
+    ```
+  </Tab>
+  <Tab title="Cursor" icon="/images/clients/cursor.svg">
+    Use **Install in Cursor** above, or add this to `~/.cursor/mcp.json`:
+
+    ```json
+    {
+      "mcpServers": {
+        "scraperize": {
+          "url": "https://api.scraperize.com/mcp"
+        }
+      }
+    }
+    ```
+
+    Then open **Settings → Tools & MCP** and click **Connect** next to scraperize to sign in.
+  </Tab>
+  <Tab title="VS Code" icon="/images/clients/vscode.svg">
+    Use **Install in VS Code** above, or add this to `.vscode/mcp.json` in your workspace:
+
+    ```json
+    {
+      "servers": {
+        "scraperize": {
+          "type": "http",
+          "url": "https://api.scraperize.com/mcp"
+        }
+      }
+    }
+    ```
+
+    Start the server from the file (or **MCP: List Servers**) and sign in when prompted.
+  </Tab>
+  <Tab title="Other" icon="plug">
+    Any MCP client that supports Streamable HTTP can connect. Use OAuth sign-in if the client supports it,
+    or send your API key as a header:
+
+    ```json
+    {
+      "mcpServers": {
+        "scraperize": {
+          "url": "https://api.scraperize.com/mcp",
+          "headers": { "x-api-key": "YOUR_API_KEY" }
+        }
+      }
+    }
+    ```
+
+    `Authorization: Bearer YOUR_API_KEY` also works.
+  </Tab>
+</Tabs>
+
+<Tip>
+  Give each app its own API key (for example "Claude" or "Cursor"). To disconnect an app, revoke its key in the
+  [dashboard](https://app.scraperize.com/keys). Your other apps and scripts keep working.
+</Tip>
+
+## Tools
+
+| Tool | What it does | Credits |
+| --- | --- | --- |
+| `list_endpoints` | Lists every scrape endpoint, optionally for one platform. | Free |
+| `describe_endpoint` | Shows one endpoint's parameters, cost and an example response. | Free |
+| `call_endpoint` | Runs a scrape: `{ path, params, cache_max_age? }`. Returns `{ data, meta }`, like the REST API. | Per call |
+| `get_credit_balance` | Your current credit balance. | Free |
+| `get_usage_summary` | Requests, credits and cache hits for the last 7, 30 or 90 days, plus your most-used endpoints. | Free |
+
+Your assistant sees every endpoint as soon as it connects, so it can usually go straight to `call_endpoint`.
+If a path or parameter is wrong, it gets an error naming the closest endpoint or the valid parameters, and
+no credits are spent.
+
+## Credits and approval
+
+- **Same as the API:** a successful `call_endpoint` costs the endpoint's credits (shown in `meta.creditsCharged`). Errors are free.
+- **Caching:** your assistant can pass `cache_max_age` (`1d`, `3d`, `7d`, `14d` or `30d`) to reuse a recent result for 0 credits.
+- **Approval:** `call_endpoint` is marked as an action that spends credits, so most clients ask before running it. Keep approval on.
+- **Limits:** calls share your team's [rate limit](/essentials/rate-limits) and show up in your request history.
+
+<Note>
+  Scraped posts and comments are third-party content. Scraperize returns them as data, and tells your
+  assistant never to follow instructions found inside them.
+</Note>
+
+## Try it
+
+Once connected, ask your assistant things like:
+
+- "Get natgeo's TikTok profile and summarize their last 10 videos."
+- "What has this company posted on LinkedIn this month?" (paste the company page link)
+- "How many credits do I have left, and what did I use most this week?"
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The app says it's disconnected or unauthorized">
+    The API key it was connected with was probably revoked. Reconnect the app and paste an active key.
+  </Accordion>
+  <Accordion title="A call fails with INSUFFICIENT_CREDITS">
+    Your balance is lower than the endpoint's cost. Top up in the [dashboard](https://app.scraperize.com).
+  </Accordion>
+  <Accordion title="A call fails with RATE_LIMITED">
+    Your team hit its per-minute limit. Wait for the time in the error, then try again.
+  </Accordion>
+</AccordionGroup>

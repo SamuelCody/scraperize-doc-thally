@@ -1,0 +1,195 @@
+---
+title: "Platforms"
+description: "Every platform and endpoint Scraperize supports today."
+---
+
+Scraperize supports **18 platforms** and **82 endpoints** today, all through one consistent API — and
+we're adding more over time. Full request/response details for each are in the
+[API Reference](/api).
+
+<Note>
+  Every endpoint returns only **public** data and follows the same [response format](/essentials/response-format).
+  A successful request costs 1 credit; a [cache hit](/essentials/caching) is free.
+</Note>
+
+## Twitter / X
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/twitter/tweet` | A public tweet by URL |
+| `GET /v1/twitter/user-tweets` | A user's profile tweets |
+| `GET /v1/twitter/profile` | Profile info, stats, and metadata |
+| `GET /v1/twitter/community` | An X Community — info, stats, rules, creator |
+| `GET /v1/twitter/community/tweets` | A community's tweets |
+
+## Facebook
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/facebook/post` | A public post or reel by URL |
+| `GET /v1/facebook/profile` | Public profile information |
+| `GET /v1/facebook/profile/posts` | A profile's posts |
+| `GET /v1/facebook/profile/photos` | A page's photos |
+| `GET /v1/facebook/profile/reels` | A page's reels |
+| `GET /v1/facebook/profile/events` | A page's events |
+| `GET /v1/facebook/post/comments` | A post's (or reel's) comments |
+| `GET /v1/facebook/post/comment/replies` | Replies to a comment |
+| `GET /v1/facebook/group` | Public group "About" information |
+| `GET /v1/facebook/group/posts` | A public group's posts |
+
+## Instagram
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/instagram/profile` | A public profile — bio, counts, bio links, highlights & related accounts |
+| `GET /v1/instagram/basic-profile` | A profile by user id — bio, counts, HD picture & bio links |
+| `GET /v1/instagram/user/posts` | A profile's posts & Reels — counts, media files, audio, tags & collaborators |
+| `GET /v1/instagram/user/reels` | A profile's Reels by user id or username — views, counts, video files, audio & tags |
+| `GET /v1/instagram/user/highlights` | A profile's story highlights by user id or username — id, title, cover & link (the first 10) |
+| `GET /v1/instagram/user/highlight/detail` | One highlight by id with every story in it — media, dates, links, hashtags, mentions, music & more |
+| `GET /v1/instagram/profile/post-count` | The post count a profile shows — exact or rounded, with exact follower counts |
+| `GET /v1/instagram/post` | A single post or Reel by URL — counts, views & plays, media files, audio, tags, AI summary, owner, first comments & more from the owner |
+| `GET /v1/instagram/post/comments` | A post's or Reel's comments by URL, newest first — text, date, likes, author & GIFs (no replies), paginated |
+| `GET /v1/instagram/search/popular` | A topic by keyword — title, Reels total, AI summary, related keywords & its curated posts (plays, counts, media, audio, owner), plus trending topics |
+| `GET /v1/instagram/audio/reels` | The Reels using an audio (song or original sound) by its URL — plays, counts, media & owner — plus the audio: title, artist, cover, Reels count, download & Spotify links |
+
+`/v1/instagram/post` takes an optional `region` (default NG) — the country the post is fetched from, from the same list as the [TikTok regions](#tiktok). Instagram media URLs download directly, with no extra headers.
+
+## Lagos Life
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/lagos-life/site` | Site details — description, share image, contact email & official social accounts |
+| `GET /v1/lagos-life/stats` | The headline numbers — players online, visits, homes by area, billboard & Sea Plots ads with weekly ₦ value, the election leader |
+| `GET /v1/lagos-life/daily` | Today's in-game bulletin — weather, headline & tip |
+| `GET /v1/lagos-life/government` | The governor, the policy in force & the running election — every candidate ranked with votes & vote share |
+| `GET /v1/lagos-life/billboards` | Every billboard — area, city, weekly ₦ price & all its rotating ads (link, image, end date) |
+| `GET /v1/lagos-life/sea` | The Sea Plots ad wall — each ad's title, link, image, size & weekly ₦ cost |
+| `GET /v1/lagos-life/homes` | The player homes on the map — username, home type, area & rent, online status |
+| `GET /v1/lagos-life/verified-players` | The verified players |
+| `GET /v1/lagos-life/places` | The places on the map — name, area, city & opening hours |
+
+[Lagos Life](https://lagoslife.app) is a life-sim game set in Lagos with real players. None of these endpoints takes parameters.
+
+## Telegram
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/telegram/channel` | Channel details |
+| `GET /v1/telegram/channel/posts` | Recent posts from a channel or group |
+| `GET /v1/telegram/post` | One public post by URL |
+
+## Snapchat
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/snapchat/profile` | A user profile |
+| `GET /v1/snapchat/spotlight` | A Spotlight video |
+| `GET /v1/snapchat/spotlight/comments` | Comments on a Spotlight video |
+
+## Kick
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/kick/clip` | A Kick clip |
+
+{/* TEMP HIDDEN: Google is disabled on the API for now. Restore this section and bump the counts
+    above (and in introduction.mdx + faq.mdx) up by 1 platform / 1 endpoint.
+
+## Google
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/google/search` | Google search results |
+*/}
+
+## Amazon
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/amazon/shop` | A creator's Amazon Shop |
+
+## Twitch
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/twitch/profile` | A channel profile — info, follower count, socials & live status |
+| `GET /v1/twitch/user/videos` | A channel's videos (filter by type, sort by time/views) |
+| `GET /v1/twitch/user/schedule` | A channel's stream schedule — upcoming segments, category & vacation |
+| `GET /v1/twitch/clip` | A single clip by URL — metadata, broadcaster, game & signed download URLs |
+
+## TikTok
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/tiktok/profile` | A public profile by username or user id — bio, avatars, badges, exact stats & LIVE events |
+| `GET /v1/tiktok/profile/region` | The country a profile posts from (code + name) |
+| `GET /v1/tiktok/profile/videos` | A profile's videos — latest, popular or oldest first, paged with a cursor |
+| `GET /v1/tiktok/collection/videos` | The videos in a public collection, paged with a cursor |
+| `GET /v1/tiktok/video` | A single video or photo post by URL — stats, author, media, music, hashtags, posting country & categories |
+| `GET /v1/tiktok/video/transcript` | A video's transcripts by URL — every caption language (original + translations), as text, timed segments & the raw file |
+| `GET /v1/tiktok/video/comments` | A video's top-level comments by URL, paged with a cursor — text, likes, replies, author & creator-liked flags |
+| `GET /v1/tiktok/video/comment/replies` | The replies to a comment by video URL + comment id, paged with a cursor — text, likes, author & who each reply answers |
+| `GET /v1/tiktok/user/followers` | A public account's followers by username or user id, paged with a cursor — profiles, flags & exact stats |
+| `GET /v1/tiktok/user/live` | Whether an account is LIVE and, if so, the stream — title, viewers, category & game, battle scores, top gifters and stream URLs; the most recent LIVE when offline |
+| `GET /v1/tiktok/song` | A sound by its TikTok link — title, artist, album, duration, flags, covers, the audio file, Apple Music & Spotify links, how many videos use it, and the artist account(s) or the original sound's creator |
+| `GET /v1/tiktok/song/videos` | The TikToks made with a sound, about 30 per page with a cursor — videos and photo carousels, each in full, plus the sound itself |
+| `GET /v1/tiktok/get-trending-feed` | TikTok's trending feed (Explore) for a region (`region`, required) — a fresh batch of about 30 posts per call, each in full with its content category |
+| `GET /v1/tiktok/user/following` | The accounts a user follows by username or user id, paged with a cursor — profiles, flags & exact stats |
+| `GET /v1/tiktok/search/users` | Accounts matching a search query, 10 per page with a cursor — profile basics, followers, likes & LIVE status |
+| `GET /v1/tiktok/search/suggestions` | TikTok's autocomplete suggestions for a query in a region (`region`, default NG) |
+| `GET /v1/tiktok/search` | TikTok's Top search for a keyword in a region (`region`, default NG): videos and photo carousels mixed in TikTok's order, about 12 per page with a cursor — each post in full, plus the accounts TikTok shows among the results |
+| `GET /v1/tiktok/search/keyword` | Videos matching a keyword in a region (`region`, default NG), about 12 per page with a cursor — each video in full, with related searches |
+| `GET /v1/tiktok/search/hashtag` | Videos for a hashtag in a region (`region`, default NG), 30 per page with a cursor — the hashtag's exact video & view counts plus each video in full |
+
+Endpoints with a `region` parameter return results for that region (default NG). Some hashtags aren't available in every region, and search (Top and keyword) isn't available in every region (for example the United States); those endpoints then return a 404, and another region may work.
+
+<Accordion title="Supported TikTok regions">
+Albania (`AL`), Algeria (`DZ`), Argentina (`AR`), Australia (`AU`), Austria (`AT`), Azerbaijan (`AZ`), Belarus (`BY`), Belgium (`BE`), Bolivia (`BO`), Brazil (`BR`), Cambodia (`KH`), Cameroon (`CM`), Canada (`CA`), Chile (`CL`), Colombia (`CO`), Costa Rica (`CR`), Czechia (`CZ`), Egypt (`EG`), France (`FR`), Germany (`DE`), Ghana (`GH`), Greece (`GR`), Hong Kong (`HK`), Iceland (`IS`), Ireland (`IE`), Israel (`IL`), Italy (`IT`), Jamaica (`JM`), Japan (`JP`), Kazakhstan (`KZ`), Kenya (`KE`), Kuwait (`KW`), Liechtenstein (`LI`), Lithuania (`LT`), Luxembourg (`LU`), Mexico (`MX`), Morocco (`MA`), Mozambique (`MZ`), Namibia (`NA`), Netherlands (`NL`), Nigeria (`NG`), North Macedonia (`MK`), Norway (`NO`), Panama (`PA`), Peru (`PE`), Philippines (`PH`), Portugal (`PT`), Puerto Rico (`PR`), Romania (`RO`), Saudi Arabia (`SA`), Singapore (`SG`), South Africa (`ZA`), South Korea (`KR`), Spain (`ES`), Sweden (`SE`), Switzerland (`CH`), Taiwan (`TW`), Thailand (`TH`), Trinidad and Tobago (`TT`), Tunisia (`TN`), Türkiye (`TR`), Uganda (`UG`), Ukraine (`UA`), United Arab Emirates (`AE`), United Kingdom (`GB`), United States (`US`), Uruguay (`UY`), Uzbekistan (`UZ`), Venezuela (`VE`)
+</Accordion>
+
+TikTok rounds large view, like, comment and share counts on videos (saves are exact) — use
+`/v1/tiktok/profile` for exact profile stats. Video `playUrl` / `formats[].url` are watermark-free;
+`downloadUrl` carries TikTok's watermark.
+
+## LinkedIn
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/linkedin/profile` | A person's public profile & recent posts |
+| `GET /v1/linkedin/company` | A company page — info, stats & recent posts |
+| `GET /v1/linkedin/company/posts` | A company's recent public posts |
+| `GET /v1/linkedin/post` | A single post or Pulse article by URL |
+| `GET /v1/linkedin/post/transcript` | A post video's transcript, when available |
+
+## Bluesky
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/bluesky/profile` | A public profile by handle — bio, avatar & banner, follower/following/post counts, verification, DM settings, pinned post, live status & labels |
+| `GET /v1/bluesky/user/posts` | An account's posts by handle or DID, about 30 per page with a cursor — text, hashtags, mentions & links, counts, images, video & link cards, quoted posts, reply context, reposts & the pinned post |
+| `GET /v1/bluesky/post` | A single post by URL — text, hashtags, mentions & links, counts, images, video & link cards, the quoted post, reply settings & labels, plus every post above it in its thread |
+
+## Threads
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/threads/profile` | A public profile by username — bio & mentions, profile picture, verified & private flags, follower count, links, interests, podcast, fediverse sharing, and the linked Instagram account's follower & following counts |
+| `GET /v1/threads/user/posts` | An account's threads by username, 15 per page with a cursor — text, images, videos & carousels, like/reply/repost/quote/share counts, mentions & links, topic, link previews, quoted posts, music, podcasts, embedded Instagram posts, pinned & spoiler flags |
+| `GET /v1/threads/post` | A single post by URL — the full post, the posts above it when it's a reply, the replies its author added to continue it, the first comments (each with the conversation under it) and the related posts Threads suggests |
+
+## Link-in-bio pages
+
+Creator link pages, each returning the page's links and profile details:
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1/linktree/page` | A public Linktree page |
+| `GET /v1/komi/page` | A public Komi page |
+| `GET /v1/pillar/page` | A public Pillar page |
+| `GET /v1/linkbio/page` | A public Lnk.Bio page |
+| `GET /v1/linkme/profile` | A public Linkme profile |
+
+---
+
+Don't see a platform you need? [Let us know](https://scraperize.com) — the roadmap is shaped by demand.

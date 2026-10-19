@@ -1,0 +1,35 @@
+---
+title: "Credits"
+description: "How usage is billed."
+---
+
+Scraperize is billed with **prepaid credits** — a balance you spend as you scrape. Credits are bought in
+one-time packs, unused credits don't expire, and your balance is shared across your team.
+
+## What a call costs
+
+- A **successful live scrape** costs **1 credit**.
+- A **cache hit** (see [Caching](/essentials/caching)) costs **0 credits**.
+- **Errors cost nothing** — a `4xx`/`5xx` response is never charged.
+
+Every scrape response reports the outcome in `meta`:
+
+```json
+"meta": { "creditsCharged": 1, "creditsRemaining": 4999, "cached": false }
+```
+
+<Note>
+  Some endpoints may cost more than 1 credit in future; the cost of each call is always reflected in
+  `meta.creditsCharged`, so you never have to guess.
+</Note>
+
+## Running out
+
+When your balance can't cover a call, the API returns **`402 INSUFFICIENT_CREDITS`**. Buy another pack
+from the **Billing** page in your [dashboard](https://app.scraperize.com) and you're topped up
+immediately — credits you already had are unaffected.
+
+## Plans
+
+All plans include **every endpoint** and credits that **never expire** — they differ only in how many
+credits you get. See live pricing on the [dashboard billing page](https://app.scraperize.com).

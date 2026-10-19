@@ -1,0 +1,36 @@
+---
+title: "Rate limits"
+description: "Per-team request limits and how to handle them."
+---
+
+Requests are rate limited **per team**, on a sliding one-minute window. When you exceed the limit the API
+returns **`429 RATE_LIMITED`** with a **`Retry-After`** header telling you how many seconds to wait.
+
+Every scrape response also carries your current budget:
+
+| Header | Meaning |
+| ------ | ------- |
+| `X-RateLimit-Limit` | Max requests allowed in the window. |
+| `X-RateLimit-Remaining` | Requests left in the current window. |
+| `Retry-After` | On a `429`, seconds to wait before retrying. |
+
+## Handling 429s
+
+Back off and retry after the `Retry-After` interval:
+
+```js
+async function scrape(url, key) {
+  const res = await fetch(url, { headers: { "x-api-key": key } });
+  if (res.status === 429) {
+    const wait = Number(res.headers.get("retry-after") ?? 1);
+    await new Promise((r) => setTimeout(r, wait * 1000));
+    return scrape(url, key);
+  }
+  return res.json();
+}
+```
+
+<Note>
+  The limit is per team, not per key — every key on a team draws from the same budget. Spreading calls
+  across multiple keys does not raise it.
+</Note>

@@ -1,0 +1,60 @@
+---
+title: "Response format"
+description: "The consistent envelope every endpoint returns."
+---
+
+Every endpoint returns the same JSON envelope, so you can write your handling once and reuse it
+everywhere.
+
+## Success
+
+```json
+{
+  "data": {
+    "post": { "id": 537, "text": "…", "views": 3440000 },
+    "fetchedAt": "2026-09-14T09:00:00.000Z"
+  },
+  "meta": {
+    "requestId": "req_8f0c…",
+    "creditsCharged": 1,
+    "creditsRemaining": 4999,
+    "cached": false
+  }
+}
+```
+
+- **`data`** — the result for the endpoint. Its shape is documented per endpoint in the
+  [API Reference](/api).
+- **`meta`** — metadata about the request itself (below).
+
+### `meta` fields
+
+| Field | Description |
+| --- | --- |
+| `requestId` | Unique id for this request (`req_…`). Quote it in support requests. |
+| `creditsCharged` | Credits this request cost — `1` for a live result, `0` for a cache hit. |
+| `creditsRemaining` | Your team's balance after this request. |
+| `cached` | `true` if served from cache, `false` if freshly fetched. |
+| `cachedAt` | When the cached result was produced (present only on a cache hit). |
+
+## Errors
+
+Errors use a parallel shape with a matching HTTP status:
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "The requested content was not found.",
+    "requestId": "req_8f0c…"
+  }
+}
+```
+
+Switch on `error.code` (stable and machine-readable), show `error.message` to humans, and log
+`requestId`. See [Errors](/essentials/errors) for the full list of codes.
+
+## Timestamps & IDs
+
+- All timestamps are **ISO 8601 UTC** strings (e.g. `2026-09-14T09:00:00.000Z`).
+- Treat all IDs as **opaque strings** — don't parse or infer meaning from them.

@@ -1,0 +1,108 @@
+---
+title: "Introduction"
+description: "Extract public data from social media platforms as clean JSON."
+---
+
+<div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '4px' }}>
+  <a href="/openapi.json" target="_blank" rel="noopener noreferrer" style={{ borderBottom: 'none', textDecoration: 'none' }}>
+    <Badge icon="brackets-curly" color="blue" shape="pill" stroke>openapi.json</Badge>
+  </a>
+  <a href="/llms.txt" target="_blank" rel="noopener noreferrer" style={{ borderBottom: 'none', textDecoration: 'none' }}>
+    <Badge icon="robot" color="blue" shape="pill" stroke>llms.txt</Badge>
+  </a>
+  <a href="/llms-full.txt" target="_blank" rel="noopener noreferrer" style={{ borderBottom: 'none', textDecoration: 'none' }}>
+    <Badge icon="file-lines" color="blue" shape="pill" stroke>llms-full.txt</Badge>
+  </a>
+</div>
+
+**Scraperize is a REST API for extracting public data from social media platforms.** Ask for a profile, a
+post, a page, or a search result and get back clean, structured JSON — no infrastructure to build, no
+pipelines to maintain, no data to parse yourself.
+
+One consistent API spans every platform we support, so the profile you fetch from Twitter and the post you
+fetch from Telegram come back through the same request pattern and the same response shape.
+
+## Who it's for
+
+Scraperize is for developers and teams who need public social data inside their own product or pipeline:
+
+- **Product and growth teams** building creator search, influencer vetting, or social listening features.
+- **Data and research teams** collecting posts, comments, and engagement for analysis without running scrapers.
+- **AI and agent builders** who want live social data as a tool call — see the [MCP integration](/integrations/mcp).
+
+If you can make an HTTP request, you can use Scraperize: there are no SDKs to install and no browsers or
+proxies to manage.
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="bolt" href="/quickstart">
+    Make your first request in under a minute.
+  </Card>
+  <Card title="Browse platforms" icon="grid-2" href="/platforms">
+    Every platform and endpoint we support.
+  </Card>
+  <Card title="Authentication" icon="key" href="/authentication">
+    How API keys work.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api">
+    Every endpoint, parameter, and response.
+  </Card>
+</CardGroup>
+
+## What you can do
+
+- **Profiles & pages** — pull public profile info, stats, and metadata across platforms.
+- **Posts & media** — fetch individual posts, reels, clips, photos, and their engagement.
+- **Feeds & collections** — page through a profile's posts, a group's posts, a channel's history.
+- **Comments** — read comments and replies on a post.
+- **Link-in-bio** — creator link pages (Linktree, Komi, Pillar, and more).
+
+See the full list on the [Platforms](/platforms) page — **18 platforms and 82 endpoints today, and
+growing** as we add more.
+
+## How a request works
+
+Send your API key in a header and the target (a URL or handle) in the query string:
+
+```bash
+curl "https://api.scraperize.com/v1/telegram/post?url=https://t.me/durov/537" \
+  -H "x-api-key: YOUR_API_KEY"
+```
+
+You get back a consistent envelope — your result under `data`, request + usage info under `meta`:
+
+```json
+{
+  "data": { "post": { "id": 537, "views": 3440000, "text": "…" }, "fetchedAt": "2026-09-14T09:00:00.000Z" },
+  "meta": { "requestId": "req_…", "creditsCharged": 1, "creditsRemaining": 4999, "cached": false }
+}
+```
+
+Read more in [Response format](/essentials/response-format).
+
+## Good to know
+
+<CardGroup cols={2}>
+  <Card title="Public data only" icon="globe">
+    Scraperize returns only publicly available data — the same information anyone can see without logging
+    in.
+  </Card>
+  <Card title="Pay with credits" icon="coins" href="/essentials/credits">
+    Each successful request costs 1 credit. Cache hits are free. Unused credits never expire.
+  </Card>
+  <Card title="Cache to save credits" icon="clock-rotate-left" href="/essentials/caching">
+    Accept a recent result with `cache_max_age` and pay 0 credits.
+  </Card>
+  <Card title="One response shape" icon="brackets-curly" href="/essentials/response-format">
+    Every endpoint returns the same `data` / `meta` envelope and error format.
+  </Card>
+</CardGroup>
+
+## Base URL
+
+```text
+https://api.scraperize.com
+```
+
+All endpoints are versioned under `/v1`. Ready to build? Start with the [Quickstart](/quickstart).
+
+Follow [@scraperize on X](https://x.com/scraperize) for new platforms, endpoints and updates.

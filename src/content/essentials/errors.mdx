@@ -1,0 +1,42 @@
+---
+title: "Errors"
+description: "The error shape and what each status means."
+---
+
+Errors return a consistent JSON shape and the matching HTTP status code:
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "The requested content was not found (it may not exist, be deleted, or be private).",
+    "requestId": "req_8f0c…"
+  }
+}
+```
+
+- **`code`** — a stable, machine-readable string (switch on this, not the message).
+- **`message`** — a human-readable, safe description. It never leaks upstream or internal detail.
+- **`requestId`** — quote it in support requests so we can trace the exact call.
+
+## Status codes
+
+| Status | `code` | When |
+| ------ | ------ | ---- |
+| `401` | `UNAUTHORIZED` | Missing, invalid, or revoked API key. |
+| `402` | `INSUFFICIENT_CREDITS` | Balance is below the call's cost. Top up to continue. |
+| `404` | `NOT_FOUND` | The target doesn't exist, is deleted, or is private. |
+| `422` | `VALIDATION_ERROR` | A required query param is missing or malformed (details included). |
+| `429` | `RATE_LIMITED` | Over the per-minute limit. See [Rate limits](/essentials/rate-limits). |
+| `503` | `UPSTREAM_BLOCKED` | The source blocked this request. Retry shortly. |
+| `503` | `EXTRACTION_FAILED` | The source returned unexpected data. Retry shortly. |
+| `503` | `PLATFORM_UNAVAILABLE` | The source is down or timed out. Retry shortly. |
+| `503` | `SERVICE_UNAVAILABLE` | We're at capacity, or the scrape didn't finish in time. Retry shortly. |
+
+Every `503` is temporary and safe to retry — wait for the `Retry-After` header (in seconds) when it's
+present. Switch on `code` if you need to know which one it was. Failed requests are never charged.
+
+<Tip>
+  `422` responses include a `details` array pinpointing each invalid parameter, so you can surface precise
+  validation feedback to your users.
+</Tip>

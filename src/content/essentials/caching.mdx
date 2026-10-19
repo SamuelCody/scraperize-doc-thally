@@ -1,0 +1,41 @@
+---
+title: "Caching"
+description: "Reuse recent results for zero credits."
+---
+
+Every scrape endpoint accepts an optional **`cache_max_age`** query parameter. When you send it,
+Scraperize will return a recent cached result — for **0 credits** — instead of scraping fresh, as long as
+a cached result within your chosen window exists.
+
+## Using it
+
+```bash
+curl "https://api.scraperize.com/v1/telegram/channel?handle=telegram&cache_max_age=7d" \
+  -H "x-api-key: YOUR_API_KEY"
+```
+
+`cache_max_age` accepts one of:
+
+| Value | Meaning |
+| ----- | ------- |
+| `1d`  | up to 1 day old |
+| `3d`  | up to 3 days old |
+| `7d`  | up to 7 days old |
+| `14d` | up to 14 days old |
+| `30d` | up to 30 days old |
+
+## Behaviour
+
+- **Hit** — a cached result within the window exists → it's returned for **0 credits**, with
+  `meta.cached: true` and `meta.cachedAt` (when it was scraped).
+- **Miss** — no fresh-enough result → a live scrape runs (**1 credit**) and refreshes the cache.
+- **Omitted** — leave `cache_max_age` out to always scrape fresh.
+
+```json
+"meta": { "cached": true, "cachedAt": "2026-09-12T08:00:00.000Z", "creditsCharged": 0 }
+```
+
+<Tip>
+  Pick the largest window your use case tolerates. `30d` on data that rarely changes can cut credit usage
+  dramatically; use `1d` when you need it fresh.
+</Tip>

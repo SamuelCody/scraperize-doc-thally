@@ -1,0 +1,62 @@
+---
+title: "FAQ"
+description: "Common questions about the Scraperize API."
+---
+
+<AccordionGroup>
+  <Accordion title="What data can I get?">
+    Publicly available data from the platforms we support — profiles, posts, media, comments, and
+    pages. See the full list on the [Platforms](/platforms) page. Scraperize returns only what is
+    publicly visible; it never accesses private or logged-in-only content.
+  </Accordion>
+
+  <Accordion title="How am I billed?">
+    With prepaid **credits**. Each successful request costs 1 credit; a [cache hit](/essentials/caching)
+    costs 0, and errors are never charged. Credits are bought in one-time packs; you spend from your balance
+    as you scrape, and unused credits **never expire**. See [Credits](/essentials/credits).
+  </Accordion>
+
+  <Accordion title="Do my credits expire?">
+    No. Credits are a balance you spend as you scrape (about 1 per request) — whatever you don't use stays on
+    your account, with no monthly reset.
+  </Accordion>
+
+  <Accordion title="What happens when I run out of credits?">
+    Requests return `402 INSUFFICIENT_CREDITS`. Buy another pack from your
+    [dashboard](https://app.scraperize.com) and you're topped up immediately — existing credits are
+    unaffected.
+  </Accordion>
+
+  <Accordion title="How do I reduce credit usage?">
+    Add `cache_max_age` to your requests to accept a recent cached result for **0 credits**. Pick the
+    largest freshness window your use case allows. See [Caching](/essentials/caching).
+  </Accordion>
+
+  <Accordion title="What are the rate limits?">
+    Requests are limited per team per minute. Over the limit returns `429` with a `Retry-After` header;
+    back off and retry after that many seconds. See [Rate limits](/essentials/rate-limits).
+  </Accordion>
+
+  <Accordion title="How should I handle errors?">
+    Switch on the stable `error.code`, show `error.message` to users, and log `error.requestId` (include
+    it in support requests). See [Errors](/essentials/errors).
+  </Accordion>
+
+  <Accordion title="Which platforms do you support?">
+    18 platforms and 82 endpoints today — see [Platforms](/platforms) — and we add more over time.
+    Need one that isn't listed? [Tell us](https://scraperize.com); the roadmap follows demand.
+  </Accordion>
+
+  <Accordion title="Is my data private?">
+    Your API keys and usage are private to your team. Keep your API key secret and call the API from your
+    server, never from client-side code. See [Authentication](/authentication).
+  </Accordion>
+
+  <Accordion title="Can I use this responsibly?">
+    Scraperize returns public data, but you are responsible for using it in line with the applicable
+    platforms' terms and the laws that apply to you. Use it to build responsibly.
+  </Accordion>
+</AccordionGroup>
+
+Still stuck? Reach out from [scraperize.com](https://scraperize.com) with your `requestId` and we'll help, or find us on
+[X (@scraperize)](https://x.com/scraperize).
